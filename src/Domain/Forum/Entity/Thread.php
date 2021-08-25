@@ -3,6 +3,9 @@
 namespace App\Domain\Forum\Entity;
 
 use App\Domain\Forum\Collection\PostCollection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 use DateTimeImmutable;
 use DomainException;
 use Symfony\Component\Uid\UuidV4;
@@ -10,18 +13,27 @@ use Symfony\Component\Uid\UuidV4;
 /**
  * @final
  */
+#[ORM\Entity()]
 class Thread
 {
+    #[ORM\Id]
+    #[ORM\Column(type: 'uuid')]
     private UuidV4 $id;
+
+    #[ORM\ManyToOne(targetEntity: 'App\Domain\Forum\Entity\AuthorInterface')]
     private AuthorInterface $author;
+
+    #[ORM\Column(type: 'string', length: 64)]
     private string $title;
+
+    #[ORM\Column(type: 'text', length: 1024)]
     private string $text;
+
+    #[ORM\Column(type: 'datetime_immutable')]
     private DateTimeImmutable $createdAt;
 
-    /**
-     * @var Post[]
-     */
-    private array $posts = [];
+    #[ORM\OneToMany(targetEntity: 'App\Domain\Forum\Entity\Post', mappedBy: 'thread', cascade: ['persist', 'remove'], orphanRemoval: true)]
+    private Collection $posts;
 
     public function __construct(UuidV4 $id, AuthorInterface $author, string $title, string $text)
     {
@@ -30,6 +42,8 @@ class Thread
         $this->title = $title;
         $this->text = $text;
         $this->createdAt = new DateTimeImmutable();
+
+        $this->posts = new ArrayCollection();
     }
 
     public function getId(): UuidV4
@@ -59,9 +73,9 @@ class Thread
 
     public function postMessage(UuidV4 $id, AuthorInterface $author, string $message): Post
     {
-        $post = new Post($id, $author, $message);
+        $post = new Post($id, $this, $author, $message);
 
-        $this->posts[] = $post;
+        $this->posts->add($post);
 
         return $post;
     }
@@ -71,7 +85,7 @@ class Thread
      */
     public function getPosts(): PostCollection
     {
-        return new PostCollection($this->posts);
+        return new PostCollection(iterator_to_array($this->posts));
     }
 
     public function rewrite(string $title, string $text): void
@@ -84,7 +98,7 @@ class Thread
     {
         self::assertThreadPostExists($this, $post);
 
-        $this->posts = $this->getPosts()->without($post)->toArray();
+        $this->posts->removeElement($post);
     }
 
     private static function assertThreadPostExists(Thread $thread, Post $post): void

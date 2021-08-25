@@ -6,6 +6,8 @@ doctrine:
         auto_generate_proxy_classes: true
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         auto_mapping: true
+        resolve_target_entities:
+            App\Domain\Forum\Entity\AuthorInterface: App\Domain\User\Entity\User
         mappings:
             User:
                 is_bundle: false
@@ -18,4 +20,4 @@ doctrine:
                 type: attribute
                 dir: '%kernel.project_dir%/src/Domain/Forum/Entity'
                 prefix: 'App\Domain\Forum\Entity'
-                alias: User
+                alias: Forum

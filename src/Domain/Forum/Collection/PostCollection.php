@@ -29,13 +29,6 @@ final class PostCollection implements IteratorAggregate
         return new ArrayIterator($this->posts);
     }
 
-    public function without(Post $postForRemoving): self
-    {
-        $posts = array_filter($this->posts, static fn (Post $post) => $post !== $postForRemoving);
-
-        return new self($posts);
-    }
-
     public function contains(Post $expectedPost): bool
     {
         foreach ($this->posts as $post) {

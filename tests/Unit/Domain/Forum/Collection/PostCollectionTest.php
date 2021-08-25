@@ -18,15 +18,4 @@ final class PostCollectionTest extends TestCase
 
         new PostCollection([$notPost]);
     }
-
-    public function testPostCanBeRemovedFromCollection(): void
-    {
-        $post = $this->createMock(Post::class);
-
-        $posts = new PostCollection([$post]);
-
-        $actualPosts = $posts->without($post);
-
-        $this->assertNotContains($post, $actualPosts);
-    }
 }
