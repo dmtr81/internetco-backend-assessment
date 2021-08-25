@@ -1,9 +1,9 @@
 api_platform:
     swagger:
         versions: [3]
-    mapping:
-        paths:
-            - '%kernel.project_dir%/src/Entity'
+#    mapping:
+#        paths:
+#            - '%kernel.project_dir%/src/Entity'
     formats:
         json:
             mime_types:

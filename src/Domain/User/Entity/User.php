@@ -3,16 +3,26 @@
 namespace App\Domain\User\Entity;
 
 use App\Domain\Forum\Entity\AuthorInterface;
+use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\UuidV4;
 
 /**
  * @final
  */
+#[ORM\Entity()]
 class User implements AuthorInterface
 {
+    #[ORM\Id]
+    #[ORM\Column(type: 'uuid')]
     private UuidV4 $id;
+
+    #[ORM\Column(type: 'string')]
     private string $username;
+
+    #[ORM\Column(type: 'string')]
     private string $email;
+
+    #[ORM\Column(type: 'string')]
     private string $passwordHash;
 
     public function __construct(UuidV4 $id, string $username, string $email, string $passwordHash)
