@@ -11,4 +11,5 @@ RUN apt-get update \
    git \
 && wget -O "/usr/local/bin/composer" "https://getcomposer.org/composer-stable.phar" \
 && chmod -R 755 "/usr/local/bin" \
-&& useradd --create-home --user-group --uid=$uid $login
+&& useradd --create-home --user-group --uid=$uid $login \
+&& docker-php-ext-install pdo pdo_mysql
