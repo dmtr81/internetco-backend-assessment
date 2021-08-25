@@ -13,6 +13,7 @@
         "doctrine/doctrine-bundle": "^2.4",
         "doctrine/doctrine-migrations-bundle": "^3.1",
         "doctrine/orm": "^2.9",
+        "happyr/entity-exists-validation-constraint": "^1.0",
         "nelmio/cors-bundle": "^2.1",
         "phpdocumentor/reflection-docblock": "^5.2",
         "symfony/asset": "5.3.*",
@@ -34,6 +35,8 @@
         "symfony/yaml": "5.3.*"
     },
     "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "^3.4",
+        "liip/test-fixtures-bundle": "^2.0.0",
         "phpunit/phpunit": "^9.5",
         "symfony/test-pack": "^1.0"
     },
