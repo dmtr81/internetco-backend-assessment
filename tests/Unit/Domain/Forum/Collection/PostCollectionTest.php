@@ -3,7 +3,6 @@
 namespace App\Tests\Unit\Domain\Forum\Collection;
 
 use App\Domain\Forum\Collection\PostCollection;
-use App\Domain\Forum\Entity\Post;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 

@@ -1,0 +1,10 @@
+services:
+    App\Domain\Forum\Repository\ThreadRepository:
+        autowire: true
+
+    App\Domain\Forum\Command\Thread\Handler\:
+        resource: '%kernel.project_dir%/src/Domain/Forum/Command/Thread/Handler'
+        autowire: true
+        tags:
+            - { name: messenger.message_handler,  bus: command.bus }
+

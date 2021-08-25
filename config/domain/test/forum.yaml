@@ -1,0 +1,4 @@
+services:
+    App\Domain\Forum\Repository\ThreadRepository:
+      autowire: true
+      public: true

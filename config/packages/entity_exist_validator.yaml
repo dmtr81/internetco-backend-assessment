@@ -1,0 +1,4 @@
+services:
+    Happyr\Validator\Constraint\EntityExistValidator:
+        autowire: true
+        tags: [ 'validator.constraint_validator' ]

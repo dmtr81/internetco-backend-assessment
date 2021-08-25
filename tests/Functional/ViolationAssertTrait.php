@@ -8,7 +8,7 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 trait ViolationAssertTrait
 {
-    protected function assertPropertyIsInvalid(string $propertyPath, string $expectedErrorMessage, ConstraintViolationListInterface $violations): void
+    protected static function assertPropertyIsInvalid(string $propertyPath, string $expectedErrorMessage, ConstraintViolationListInterface $violations): void
     {
         $actualErrorMessage = self::findViolationMessagesByProperty($propertyPath, $violations);
 
@@ -23,7 +23,7 @@ trait ViolationAssertTrait
         );
     }
 
-    protected function assertPropertyIsValid(string $propertyPath, ConstraintViolationListInterface $violations): void
+    protected static function assertPropertyIsValid(string $propertyPath, ConstraintViolationListInterface $violations): void
     {
         $actualErrorMessage = self::findViolationMessagesByProperty($propertyPath, $violations);
 

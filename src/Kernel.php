@@ -22,6 +22,9 @@ class Kernel extends BaseKernel
         } else {
             $container->import('../config/{services}.php');
         }
+
+        $container->import('../config/{domain}/*.yaml');
+        $container->import('../config/{domain}/'.$this->environment.'/*.yaml');
     }
 
     protected function configureRoutes(RoutingConfigurator $routes): void
