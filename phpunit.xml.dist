@@ -25,6 +25,9 @@
         <testsuite name="functional">
             <directory>tests/Functional</directory>
         </testsuite>
+        <testsuite name="acceptance">
+            <directory>tests/Acceptance</directory>
+        </testsuite>
     </testsuites>
 
     <coverage processUncoveredFiles="true">

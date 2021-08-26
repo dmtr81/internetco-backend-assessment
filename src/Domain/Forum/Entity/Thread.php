@@ -3,6 +3,11 @@
 namespace App\Domain\Forum\Entity;
 
 use App\Domain\Forum\Collection\PostCollection;
+use ApiPlatform\Core\Annotation\ApiResource;
+use App\Domain\Forum\Command\Thread\CreateThreadCommand;
+use App\Domain\Forum\Command\Thread\DeleteThreadCommand;
+use App\Domain\Forum\Command\Thread\UpdateThreadCommand;
+use App\View\Forum\ThreadView;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -14,6 +19,18 @@ use Symfony\Component\Uid\UuidV4;
  * @final
  */
 #[ORM\Entity()]
+#[ApiResource(
+    output: ThreadView::class,
+    collectionOperations: [
+        'get',
+        'post' => ['messenger' => 'input', 'input' => CreateThreadCommand::class],
+    ],
+    itemOperations: [
+        'get',
+        'put' => ['messenger' => 'input', 'input' => UpdateThreadCommand::class],
+        'delete' => ['messenger' => 'input', 'input' => DeleteThreadCommand::class, 'output' => false],
+    ],
+)]
 class Thread
 {
     #[ORM\Id]
@@ -86,6 +103,11 @@ class Thread
     public function getPosts(): PostCollection
     {
         return new PostCollection(iterator_to_array($this->posts));
+    }
+
+    public function deletePosts(): void
+    {
+        $this->posts->clear();
     }
 
     public function rewrite(string $title, string $text): void
