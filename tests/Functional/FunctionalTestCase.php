@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class FunctionalTestCase extends WebTestCase
+abstract class FunctionalTestCase extends WebTestCase
 {
     final protected function getValidator(): ValidatorInterface
     {
