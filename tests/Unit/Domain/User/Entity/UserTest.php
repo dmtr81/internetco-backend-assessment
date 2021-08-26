@@ -22,4 +22,21 @@ final class UserTest extends TestCase
         self::assertSame($expectedEmail, $user->getEmail());
         self::assertSame($expectedPasswordHash, $user->getPasswordHash());
     }
+
+    public function testUserCanReceiveNotification(): void
+    {
+        $expectedNotificationMessage = 'message';
+
+        $user = $this->createValidUser();
+
+        $notification = $user->receiveNotification(Uuid::v4(), $expectedNotificationMessage);
+
+        self::assertSame($expectedNotificationMessage, $notification->getMessage());
+        self::assertContains($notification, $user->getNotifications());
+    }
+
+    private function createValidUser(): User
+    {
+        return new User(Uuid::v4(), 'username', 'email@domain.com', 'hash');
+    }
 }

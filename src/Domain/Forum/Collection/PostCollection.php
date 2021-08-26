@@ -57,6 +57,13 @@ final class PostCollection implements IteratorAggregate, Countable
         return null;
     }
 
+    public function first(): ?Post
+    {
+        $post = current($this->posts);
+
+        return $post ?: null;
+    }
+
     private static function assertItemsArePosts(array $items): void
     {
         foreach ($items as $item) {
@@ -64,12 +71,5 @@ final class PostCollection implements IteratorAggregate, Countable
                 throw new InvalidArgumentException(sprintf('Collection must contains %s only.', Post::class));
             }
         }
-    }
-
-    public function first(): ?Post
-    {
-        $post = current($this->posts);
-
-        return $post ?: null;
     }
 }
