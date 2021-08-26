@@ -16,10 +16,10 @@ class User implements AuthorInterface
     #[ORM\Column(type: 'uuid')]
     private UuidV4 $id;
 
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: 'string', unique: true)]
     private string $username;
 
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: 'string', unique: true)]
     private string $email;
 
     #[ORM\Column(type: 'string')]
