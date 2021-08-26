@@ -4,10 +4,11 @@ namespace App\Domain\User\Collection;
 
 use App\Domain\User\Entity\Notification;
 use ArrayIterator;
+use Countable;
 use InvalidArgumentException;
 use IteratorAggregate;
 
-final class NotificationCollection implements IteratorAggregate
+final class NotificationCollection implements IteratorAggregate, Countable
 {
     /**
      * @var Notification[]
@@ -27,6 +28,11 @@ final class NotificationCollection implements IteratorAggregate
     public function getIterator(): ArrayIterator
     {
         return new ArrayIterator($this->notifications);
+    }
+
+    public function count(): int
+    {
+        return count($this->notifications);
     }
 
     public function findById(string $notificationId): ?Notification

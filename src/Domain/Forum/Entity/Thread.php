@@ -2,6 +2,7 @@
 
 namespace App\Domain\Forum\Entity;
 
+use App\Domain\Forum\Collection\AuthorCollection;
 use App\Domain\Forum\Collection\PostCollection;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Domain\Forum\Command\Thread\CreateThreadCommand;
@@ -128,5 +129,12 @@ class Thread
         if (!$thread->getPosts()->contains($post)) {
             throw new DomainException('Post does not exist.');
         }
+    }
+
+    public function getInterlocutors(): AuthorCollection
+    {
+        $postAuthors = $this->getPosts()->getAuthors();
+
+        return $postAuthors->with($this->getAuthor())->unique();
     }
 }

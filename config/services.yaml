@@ -19,3 +19,9 @@ services:
             - '@api_platform.metadata.resource.metadata_factory'
         tags:
             - { name: 'kernel.event_listener', 'event': 'kernel.request', method: 'onKernelRequest', priority: -100 }
+
+    App\Domain\EventSubscriber\:
+        resource: '../src/Domain/EventSubscriber/*'
+        autowire: true
+        tags:
+            - { name: messenger.message_handler }

@@ -64,6 +64,19 @@ final class PostCollection implements IteratorAggregate, Countable
         return $post ?: null;
     }
 
+    public function getAuthors(): AuthorCollection
+    {
+        $authors = [];
+
+        foreach ($this as $post) {
+            assert($post instanceof Post);
+
+            $authors[] = $post->getAuthor();
+        }
+
+        return new AuthorCollection($authors);
+    }
+
     private static function assertItemsArePosts(array $items): void
     {
         foreach ($items as $item) {

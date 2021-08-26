@@ -6,6 +6,7 @@ framework:
                 middleware:
                     - doctrine_transaction
                     - validation
+            event.bus:
         transports:
             async: '%env(MESSENGER_TRANSPORT_DSN)%'
             failed: 'doctrine://default?queue_name=failed'

@@ -24,4 +24,9 @@ abstract class FunctionalTestCase extends WebTestCase
     {
         return static::getContainer()->get('command.bus');
     }
+
+    final protected function getEventBus(): MessageBusInterface
+    {
+        return static::getContainer()->get('event.bus');
+    }
 }
