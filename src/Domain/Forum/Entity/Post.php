@@ -2,6 +2,10 @@
 
 namespace App\Domain\Forum\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
+use App\Domain\Forum\Command\Post\DeletePostCommand;
+use App\Domain\Forum\Command\Post\PostMessageToThreadCommand;
+use App\View\Forum\PostView;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\UuidV4;
@@ -10,6 +14,17 @@ use Symfony\Component\Uid\UuidV4;
  * @final
  */
 #[ORM\Entity()]
+#[ApiResource(
+    output: PostView::class,
+    collectionOperations: [
+        'get',
+        'post' => ['messenger' => 'input', 'input' => PostMessageToThreadCommand::class],
+    ],
+    itemOperations: [
+        'get',
+        'delete' => ['messenger' => 'input', 'input' => DeletePostCommand::class, 'output' => false],
+    ],
+)]
 class Post
 {
     #[ORM\Id]
@@ -55,5 +70,10 @@ class Post
     public function getCreatedAt(): DateTimeImmutable
     {
         return $this->createdAt;
+    }
+
+    public function getThread(): Thread
+    {
+        return $this->thread;
     }
 }

@@ -4,10 +4,11 @@ namespace App\Domain\Forum\Collection;
 
 use App\Domain\Forum\Entity\Post;
 use ArrayIterator;
+use Countable;
 use InvalidArgumentException;
 use IteratorAggregate;
 
-final class PostCollection implements IteratorAggregate
+final class PostCollection implements IteratorAggregate, Countable
 {
     /**
      * @var Post[]
@@ -29,6 +30,11 @@ final class PostCollection implements IteratorAggregate
         return new ArrayIterator($this->posts);
     }
 
+    public function count(): int
+    {
+        return count($this->posts);
+    }
+
     public function contains(Post $expectedPost): bool
     {
         foreach ($this->posts as $post) {
@@ -40,12 +46,15 @@ final class PostCollection implements IteratorAggregate
         return false;
     }
 
-    /**
-     * @return Post[]
-     */
-    public function toArray(): array
+    public function findById(string $postId): ?Post
     {
-        return $this->posts;
+        foreach ($this->posts as $post) {
+            if ($postId === (string) $post->getId()) {
+                return $post;
+            }
+        }
+
+        return null;
     }
 
     private static function assertItemsArePosts(array $items): void
@@ -55,5 +64,12 @@ final class PostCollection implements IteratorAggregate
                 throw new InvalidArgumentException(sprintf('Collection must contains %s only.', Post::class));
             }
         }
+    }
+
+    public function first(): ?Post
+    {
+        $post = current($this->posts);
+
+        return $post ?: null;
     }
 }
