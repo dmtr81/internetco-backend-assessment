@@ -31,10 +31,10 @@ class Post
     #[ORM\Column(type: 'uuid')]
     private UuidV4 $id;
 
-    #[ORM\ManyToOne(targetEntity: 'App\Domain\Forum\Entity\Thread', inversedBy: 'posts')]
+    #[ORM\ManyToOne(targetEntity: Thread::class, inversedBy: 'posts')]
     private Thread $thread;
 
-    #[ORM\ManyToOne(targetEntity: 'App\Domain\Forum\Entity\AuthorInterface')]
+    #[ORM\ManyToOne(targetEntity: AuthorInterface::class)]
     private AuthorInterface $author;
 
     #[ORM\Column(type: 'text', length: 512)]

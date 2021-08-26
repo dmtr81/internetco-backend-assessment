@@ -37,7 +37,7 @@ class Thread
     #[ORM\Column(type: 'uuid')]
     private UuidV4 $id;
 
-    #[ORM\ManyToOne(targetEntity: 'App\Domain\Forum\Entity\AuthorInterface')]
+    #[ORM\ManyToOne(targetEntity: AuthorInterface::class)]
     private AuthorInterface $author;
 
     #[ORM\Column(type: 'string', length: 64)]
@@ -49,7 +49,7 @@ class Thread
     #[ORM\Column(type: 'datetime_immutable')]
     private DateTimeImmutable $createdAt;
 
-    #[ORM\OneToMany(targetEntity: 'App\Domain\Forum\Entity\Post', mappedBy: 'thread', cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Post::class, mappedBy: 'thread', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $posts;
 
     public function __construct(UuidV4 $id, AuthorInterface $author, string $title, string $text)
