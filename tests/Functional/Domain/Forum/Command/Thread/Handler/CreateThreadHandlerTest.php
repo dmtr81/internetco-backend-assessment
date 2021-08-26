@@ -7,7 +7,6 @@ use App\Domain\Forum\Command\Thread\CreateThreadCommand;
 use App\Domain\Forum\Entity\AuthorInterface;
 use App\Domain\Forum\Repository\ThreadRepository;
 use App\Tests\Functional\FunctionalTestCase;
-use Symfony\Component\Uid\Uuid;
 
 final class CreateThreadHandlerTest extends FunctionalTestCase
 {
@@ -26,14 +25,14 @@ final class CreateThreadHandlerTest extends FunctionalTestCase
 
     public function testThreadMustBeCreatedAfterHandleCommand(): void
     {
-        $command = new CreateThreadCommand(Uuid::v4());
+        $command = new CreateThreadCommand();
         $command->title = 'title';
         $command->text = 'text';
         $command->authorId = (string) $this->author->getId();
 
         $this->getCommandBus()->dispatch($command);
 
-        $actualThread = $this->threadRepository->findById($command->id);
+        $actualThread = $this->threadRepository->findById($command->getThreadId());
 
         self::assertSame($command->title, $actualThread->getTitle());
         self::assertSame($command->text, $actualThread->getText());

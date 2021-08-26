@@ -17,7 +17,7 @@ final class CreateThreadHandler
     {
         $author = $this->authorRepository->findById($command->authorId);
 
-        $thread = new Thread($command->id, $author, $command->title, $command->text);
+        $thread = new Thread($command->getThreadId(), $author, $command->title, $command->text);
 
         $this->threadRepository->save($thread);
     }

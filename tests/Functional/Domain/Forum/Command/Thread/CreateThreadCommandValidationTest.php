@@ -2,7 +2,9 @@
 
 namespace App\Tests\Functional\Domain\Forum\Command\Thread;
 
+use App\DataFixtures\User\TestUserFixture;
 use App\Domain\Forum\Command\Thread\CreateThreadCommand;
+use App\Domain\Forum\Entity\AuthorInterface;
 use App\Tests\Functional\FunctionalTestCase;
 use App\Tests\Functional\ViolationAssertTrait;
 use Symfony\Component\Uid\Uuid;
@@ -17,7 +19,7 @@ final class CreateThreadCommandValidationTest extends FunctionalTestCase
     {
         parent::setUp();
 
-        $this->command = new CreateThreadCommand(Uuid::v4());
+        $this->command = new CreateThreadCommand();
     }
 
     public function testAllPropertiesMustBeFilled(): void
@@ -63,5 +65,21 @@ final class CreateThreadCommandValidationTest extends FunctionalTestCase
 
         self::assertPropertyIsInvalid('title', 'This value is too long. It should have 64 characters or less.', $violations);
         self::assertPropertyIsInvalid('text', 'This value is too long. It should have 1024 characters or less.', $violations);
+    }
+
+    public function testValidCommandShouldNotCauseViolations(): void
+    {
+        $referenceRepository = $this->getDatabaseTool()->loadFixtures([TestUserFixture::class])->getReferenceRepository();
+
+        $author = $referenceRepository->getReference(TestUserFixture::REFERENCE_NAME);
+        assert($author instanceof AuthorInterface);
+
+        $this->command->authorId = (string) $author->getId();
+        $this->command->title = 'valid title';
+        $this->command->text = 'valid text';
+
+        $violations = $this->getValidator()->validate($this->command);
+
+        self::assertCount(0, $violations);
     }
 }
