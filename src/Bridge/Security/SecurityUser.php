@@ -3,9 +3,10 @@
 namespace App\Bridge\Security;
 
 use App\Domain\User\Entity\User;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class SecurityUser implements UserInterface
+class SecurityUser implements UserInterface, PasswordAuthenticatedUserInterface
 {
     private const USER_ROLE = 'ROLE_USER'; // can be moved to enum
 
