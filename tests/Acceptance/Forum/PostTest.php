@@ -64,7 +64,6 @@ final class PostTest extends AcceptanceTestCase
     {
         $expectedPostData = [
             'threadId' => (string) $this->thread->getId(),
-            'authorId' => (string) $this->thread->getAuthor()->getId(),
             'message' => 'title',
         ];
 

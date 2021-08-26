@@ -2,11 +2,16 @@
 
 namespace App\Domain\Forum\Command\Thread;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Happyr\Validator\Constraint\EntityExist;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Uid\UuidV4;
 use Symfony\Component\Validator\Constraints as Assert;
 
+#[ApiResource(
+    denormalizationContext: ['groups' => ['write']],
+    normalizationContext: ['groups' => ['read']],
+)]
 final class CreateThreadCommand
 {
     use UpdatableThreadDataTrait;

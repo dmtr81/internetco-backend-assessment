@@ -2,11 +2,17 @@
 
 namespace App\Domain\Forum\Command\Post;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Happyr\Validator\Constraint\EntityExist;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Uid\UuidV4;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
+#[ApiResource(
+    denormalizationContext: ['groups' => ['write']],
+    normalizationContext: ['groups' => ['read']],
+)]
 final class PostMessageToThreadCommand
 {
     #[Assert\NotBlank()]
@@ -20,11 +26,14 @@ final class PostMessageToThreadCommand
 
     #[Assert\NotBlank()]
     #[Assert\Length(min: 4, max: 512)]
+    /** @Groups({"read", "write"}) */
     public $message;
 
     #[Assert\NotBlank()]
     /**
      * @EntityExist(entity="App\Domain\Forum\Entity\Thread", message="Thread does not exist.")
+     *
+     * @Groups({"read", "write"})
      *
      * @todo use translation messages
      * @todo use attribute for EntityExist constraint

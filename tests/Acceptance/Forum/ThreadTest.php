@@ -64,7 +64,6 @@ final class ThreadTest extends AcceptanceTestCase
         assert($author instanceof AuthorInterface);
 
         $expectedThreadData = [
-            'authorId' => (string) $author->getId(),
             'title' => 'title',
             'text' => 'text',
         ];
