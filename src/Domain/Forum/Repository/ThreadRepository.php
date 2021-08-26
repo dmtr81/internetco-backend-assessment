@@ -24,4 +24,9 @@ final class ThreadRepository
     {
         $this->entityManager->persist($thread);
     }
+
+    public function delete(Thread $thread): void
+    {
+        $this->entityManager->remove($thread);
+    }
 }

@@ -75,6 +75,16 @@ final class ThreadTest extends TestCase
         $thread->deletePost($this->createMock(Post::class));
     }
 
+    public function testAllPostsCanBeDeleted(): void
+    {
+        $thread = $this->createValidThread();
+        $post = $this->postValidMessageToThread($thread);
+
+        $thread->deletePosts();
+
+        self::assertNotContains($post, $thread->getPosts());
+    }
+
     private function createValidThread(): Thread
     {
         return new Thread(Uuid::v4(), $this->createMock(AuthorInterface::class), 'title', 'text');
