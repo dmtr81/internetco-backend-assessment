@@ -23,12 +23,12 @@ use Symfony\Component\Uid\UuidV4;
     output: ThreadView::class,
     collectionOperations: [
         'get',
-        'post' => ['messenger' => 'input', 'input' => CreateThreadCommand::class],
+        'post' => ['messenger' => 'input', 'input' => CreateThreadCommand::class, 'security' => 'is_granted(\'ROLE_USER\')'],
     ],
     itemOperations: [
         'get',
-        'put' => ['messenger' => 'input', 'input' => UpdateThreadCommand::class],
-        'delete' => ['messenger' => 'input', 'input' => DeleteThreadCommand::class, 'output' => false],
+        'put' => ['messenger' => 'input', 'input' => UpdateThreadCommand::class, 'security' => 'user.is(object.getAuthor())'],
+        'delete' => ['messenger' => 'input', 'input' => DeleteThreadCommand::class, 'output' => false, 'security' => 'user.is(object.getAuthor())'],
     ],
 )]
 class Thread

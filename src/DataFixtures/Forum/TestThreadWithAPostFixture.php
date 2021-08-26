@@ -2,7 +2,7 @@
 
 namespace App\DataFixtures\Forum;
 
-use App\DataFixtures\User\TestUserFixture;
+use App\Domain\Forum\Entity\AuthorInterface;
 use App\Domain\Forum\Entity\Thread;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -15,7 +15,8 @@ final class TestThreadWithAPostFixture extends Fixture implements DependentFixtu
 
     public function load(ObjectManager $manager)
     {
-        $author = $this->getReference(TestUserFixture::REFERENCE_NAME);
+        $author = $this->getReference(TestAuthorFixture::REFERENCE_NAME);
+        assert($author instanceof AuthorInterface);
 
         $thread = new Thread(Uuid::v4(), $author, 'thread without posts', 'text');
         $thread->postMessage(Uuid::v4(), $author, 'test');
@@ -31,6 +32,6 @@ final class TestThreadWithAPostFixture extends Fixture implements DependentFixtu
      */
     public function getDependencies(): array
     {
-        return [TestUserFixture::class];
+        return [TestAuthorFixture::class];
     }
 }

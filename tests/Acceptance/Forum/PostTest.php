@@ -3,6 +3,8 @@
 namespace App\Tests\Acceptance\Forum;
 
 use App\DataFixtures\Forum\TestThreadWithAPostFixture;
+use App\DataFixtures\User\TestUserFixture;
+use App\Domain\Forum\Entity\AuthorInterface;
 use App\Domain\Forum\Entity\Post;
 use App\Domain\Forum\Entity\Thread;
 use App\Tests\Acceptance\AcceptanceTestCase;
@@ -23,7 +25,7 @@ final class PostTest extends AcceptanceTestCase
     {
         $expectedPostsCount = count($this->thread->getPosts());
 
-        $response = self::createClient()->request('GET', '/api/posts?page=1');
+        $response = self::createClient()->request('GET', '/api/posts?page=1', ['auth_basic' => self::resolveUserCredentials($this->thread->getAuthor())]);
 
         self::assertResponseIsSuccessful();
         self::assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
@@ -45,7 +47,7 @@ final class PostTest extends AcceptanceTestCase
         $post = $this->thread->getPosts()->first();
 
         $postUrl = $this->findIriBy(Post::class, ['id' => (string) $post->getId()]);
-        self::createClient()->request('GET', $postUrl);
+        self::createClient()->request('GET', $postUrl, ['auth_basic' => self::resolveUserCredentials($post->getAuthor())]);
 
         self::assertResponseIsSuccessful();
         self::assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
@@ -66,7 +68,10 @@ final class PostTest extends AcceptanceTestCase
             'message' => 'title',
         ];
 
-        self::createClient()->request('POST', '/api/posts', ['json' => $expectedPostData]);
+        self::createClient()->request('POST', '/api/posts', [
+            'json' => $expectedPostData,
+            'auth_basic' => self::resolveUserCredentials($this->thread->getAuthor()),
+        ]);
 
         self::assertResponseStatusCodeSame(201);
         self::assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
@@ -81,8 +86,22 @@ final class PostTest extends AcceptanceTestCase
         $post = $this->thread->getPosts()->first();
 
         $postUrl = $this->findIriBy(Post::class, ['id' => (string) $post->getId()]);
-        self::createClient()->request('DELETE', $postUrl);
+        self::createClient()->request('DELETE', $postUrl, ['auth_basic' => self::resolveUserCredentials($post->getAuthor())]);
 
         self::assertResponseStatusCodeSame(204);
+    }
+
+    public function testUserCannotDeleteNotOwnPost(): void
+    {
+        $referenceRepository = $this->getDatabaseTool()->loadFixtures([TestUserFixture::class], true)->getReferenceRepository();
+        $notPostAuthor = $referenceRepository->getReference(TestUserFixture::REFERENCE_NAME);
+        assert($notPostAuthor instanceof AuthorInterface);
+
+        $post = $this->thread->getPosts()->first();
+
+        $postUrl = $this->findIriBy(Post::class, ['id' => (string) $post->getId()]);
+        self::createClient()->request('DELETE', $postUrl, ['auth_basic' => self::resolveUserCredentials($notPostAuthor)]);
+
+        self::assertResponseStatusCodeSame(403);
     }
 }

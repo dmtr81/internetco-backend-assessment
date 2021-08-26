@@ -1,15 +1,18 @@
 security:
     enable_authenticator_manager: true
     password_hashers:
-        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+        App\Bridge\Security\SecurityUser: 'plaintext'
     providers:
-        users_in_memory: { memory: null }
+        security_user_provider:
+            id: App\Bridge\Security\SecurityUserProvider
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        main:
-            lazy: true
-            provider: users_in_memory
+        api:
+            pattern: ^/api
+            provider: security_user_provider
+            http_basic: ~
 
     access_control:
+        - { path: ^/api, roles: ROLE_USER }

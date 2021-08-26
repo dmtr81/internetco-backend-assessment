@@ -2,7 +2,7 @@
 
 namespace App\Tests\Functional\Domain\Forum\Command\Thread;
 
-use App\DataFixtures\User\TestUserFixture;
+use App\DataFixtures\Forum\TestAuthorFixture;
 use App\Domain\Forum\Command\Thread\CreateThreadCommand;
 use App\Domain\Forum\Entity\AuthorInterface;
 use App\Tests\Functional\FunctionalTestCase;
@@ -69,9 +69,9 @@ final class CreateThreadCommandValidationTest extends FunctionalTestCase
 
     public function testValidCommandShouldNotCauseViolations(): void
     {
-        $referenceRepository = $this->getDatabaseTool()->loadFixtures([TestUserFixture::class])->getReferenceRepository();
+        $referenceRepository = $this->getDatabaseTool()->loadFixtures([TestAuthorFixture::class])->getReferenceRepository();
 
-        $author = $referenceRepository->getReference(TestUserFixture::REFERENCE_NAME);
+        $author = $referenceRepository->getReference(TestAuthorFixture::REFERENCE_NAME);
         assert($author instanceof AuthorInterface);
 
         $this->command->authorId = (string) $author->getId();

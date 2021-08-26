@@ -18,11 +18,11 @@ use Symfony\Component\Uid\UuidV4;
     output: PostView::class,
     collectionOperations: [
         'get',
-        'post' => ['messenger' => 'input', 'input' => PostMessageToThreadCommand::class],
+        'post' => ['messenger' => 'input', 'input' => PostMessageToThreadCommand::class, 'security' => 'is_granted(\'ROLE_USER\')'],
     ],
     itemOperations: [
         'get',
-        'delete' => ['messenger' => 'input', 'input' => DeletePostCommand::class, 'output' => false],
+        'delete' => ['messenger' => 'input', 'input' => DeletePostCommand::class, 'output' => false, 'security' => 'user.is(object.getAuthor())'],
     ],
 )]
 class Post

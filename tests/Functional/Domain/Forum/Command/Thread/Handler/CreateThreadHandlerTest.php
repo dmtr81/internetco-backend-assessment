@@ -2,7 +2,7 @@
 
 namespace App\Tests\Functional\Domain\Forum\Command\Thread\Handler;
 
-use App\DataFixtures\User\TestUserFixture;
+use App\DataFixtures\Forum\TestAuthorFixture;
 use App\Domain\Forum\Command\Thread\CreateThreadCommand;
 use App\Domain\Forum\Entity\AuthorInterface;
 use App\Domain\Forum\Repository\ThreadRepository;
@@ -17,8 +17,8 @@ final class CreateThreadHandlerTest extends FunctionalTestCase
     {
         parent::setUp();
 
-        $referenceRepository = $this->getDatabaseTool()->loadFixtures([TestUserFixture::class])->getReferenceRepository();
-        $this->author = $referenceRepository->getReference(TestUserFixture::REFERENCE_NAME);
+        $referenceRepository = $this->getDatabaseTool()->loadFixtures([TestAuthorFixture::class])->getReferenceRepository();
+        $this->author = $referenceRepository->getReference(TestAuthorFixture::REFERENCE_NAME);
 
         $this->threadRepository = $this->getContainer()->get(ThreadRepository::class);
     }

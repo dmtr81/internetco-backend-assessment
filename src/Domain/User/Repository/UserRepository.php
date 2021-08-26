@@ -20,4 +20,9 @@ final class UserRepository implements AuthorRepositoryInterface
     {
         return $this->doctrineRepository->find($id);
     }
+
+    public function findByEmail(string $email): ?User
+    {
+        return $this->doctrineRepository->findOneBy(['email' => $email]);
+    }
 }
