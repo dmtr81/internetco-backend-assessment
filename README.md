@@ -50,6 +50,31 @@ messages!
 docker-compose down &&
 docker-compose up -d --build &&
 docker-compose exec php sh -c 'composer install'
+docker-compose exec php sh -c 'php bin/console doctrine:migrations:migrate'
+docker-compose exec php sh -c 'php bin/console doctrine:fixtures:load'
 ```
 
 The application is served to `127.0.0.1:8080`
+
+## Tests
+
+```sh
+docker-compose exec php sh -c 'php ./vendor/bin/phpunit'
+```
+
+## Api documentation
+
+Go to the page [http://127.0.0.1:8080/api](http://127.0.0.1:8080/api).
+
+Use fixture users credentials for authentication:
+
+```
+username: test@test.loc
+password: test
+
+username: notified@test.loc
+password: test
+
+username: author@test.loc
+password: test
+```
