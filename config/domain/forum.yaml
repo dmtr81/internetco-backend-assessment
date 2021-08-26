@@ -8,3 +8,9 @@ services:
         tags:
             - { name: messenger.message_handler,  bus: command.bus }
 
+    App\Domain\Forum\Command\Post\Handler\:
+        resource: '%kernel.project_dir%/src/Domain/Forum/Command/Post/Handler'
+        autowire: true
+        tags:
+            - { name: messenger.message_handler,  bus: command.bus }
+
