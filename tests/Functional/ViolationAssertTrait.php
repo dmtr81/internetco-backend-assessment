@@ -23,13 +23,6 @@ trait ViolationAssertTrait
         );
     }
 
-    protected static function assertPropertyIsValid(string $propertyPath, ConstraintViolationListInterface $violations): void
-    {
-        $actualErrorMessage = self::findViolationMessagesByProperty($propertyPath, $violations);
-
-        Assert::assertEmpty($actualErrorMessage);
-    }
-
     /**
      * @return string[]
      */

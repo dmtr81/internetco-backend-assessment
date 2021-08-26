@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Functional\EventSubscriber;
+namespace App\Tests\Functional\Domain\EventSubscriber;
 
 use App\DataFixtures\Forum\TestThreadWithPostsFromDifferentAuthorsFixture;
 use App\Domain\Forum\Entity\Thread;

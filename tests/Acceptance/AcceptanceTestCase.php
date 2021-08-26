@@ -4,7 +4,6 @@ namespace App\Tests\Acceptance;
 
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase;
 use App\Domain\User\Entity\User;
-use App\Tests\Acceptance\Forum\ThreadTest;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Liip\TestFixturesBundle\Services\DatabaseTools\AbstractDatabaseTool;
 
