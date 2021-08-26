@@ -14,6 +14,11 @@ class SecurityUser implements UserInterface, PasswordAuthenticatedUserInterface
     {
     }
 
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+
     /**
      * @inheritDoc
      */
@@ -24,7 +29,7 @@ class SecurityUser implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getPassword(): string
     {
-        return $this->user->getPasswordHash();
+        return $this->getUser()->getPasswordHash();
     }
 
     public function getSalt(): ?string
@@ -43,11 +48,11 @@ class SecurityUser implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getUserIdentifier(): string
     {
-        return $this->user->getEmail();
+        return $this->getUser()->getEmail();
     }
 
     public function is(User $user): bool
     {
-        return $this->user === $user;
+        return $this->getUser() === $user;
     }
 }

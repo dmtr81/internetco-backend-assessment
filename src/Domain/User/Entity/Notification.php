@@ -2,6 +2,8 @@
 
 namespace App\Domain\User\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
+use App\View\User\NotificationView;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\UuidV4;
 
@@ -9,6 +11,14 @@ use Symfony\Component\Uid\UuidV4;
  * @final
  */
 #[ORM\Entity()]
+#[ApiResource(
+    output: NotificationView::class,
+    collectionOperations: [
+        'get',
+    ],
+    itemOperations: [
+    ],
+)]
 class Notification
 {
     #[ORM\Id]

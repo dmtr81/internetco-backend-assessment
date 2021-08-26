@@ -13,7 +13,7 @@ final class PostCreatedEventSubscriber implements MessageSubscriberInterface
     /**
      * @todo move to command factory
      */
-    private const NOTIFICATION_TEXT = 'New have new message.';
+    private const NOTIFICATION_TEXT = 'You have new message.';
 
     private MessageBusInterface $commandBus;
 
