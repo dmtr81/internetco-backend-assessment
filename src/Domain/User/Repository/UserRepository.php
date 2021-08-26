@@ -25,4 +25,9 @@ final class UserRepository implements AuthorRepositoryInterface
     {
         return $this->doctrineRepository->findOneBy(['email' => $email]);
     }
+
+    public function save(User $user): void
+    {
+        $this->entityManager->persist($user);
+    }
 }
